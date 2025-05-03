@@ -1,0 +1,19 @@
+replicaCount: 1
+
+image:
+  repository: my-spa-image
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  host: spa.example.com
+
+extraEnvVars:
+  - name: NODE_ENV
+    value: production

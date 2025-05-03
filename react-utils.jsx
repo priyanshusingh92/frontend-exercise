@@ -86,3 +86,23 @@ export function withErrorBoundary(Component, fallback, onRetry) {
     );
   };
 }
+
+
+// --- 4.1 Micro-Frontend Router Shell ---
+const RemoteApp1 = lazy(() => import('remoteApp1/App'));
+const RemoteApp2 = lazy(() => import('remoteApp2/App'));
+
+export function MicroFrontendShell() {
+  return (
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/app1" element={<RemoteApp1 />} />
+          <Route path="/app2" element={<RemoteApp2 />} />
+          <Route path="*" element={<div>Home or 404</div>} />
+        </Routes>
+      </Suspense>
+    </Router>
+  );
+}
+

@@ -1,4 +1,4 @@
-// File: src/utils.ts
+
 
 // --- 1.1 schedule(fn, delay) with rate limit ---
 type Task = { fn: () => void; time: number };

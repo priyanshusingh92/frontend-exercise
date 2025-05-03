@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cache-bust-{{ include "spa-frontend.fullname" . }}
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: cache-bust
+          image: curlimages/curl:latest
+          command: ["curl", "-X", "POST", "https://api.cloudflare.com/client/v4/zones/YOUR_ZONE_ID/purge_cache"]
+          env:
+            - name: CF_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-secret
+                  key: api_key
+            - name: CF_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-secret
+                  key: email
